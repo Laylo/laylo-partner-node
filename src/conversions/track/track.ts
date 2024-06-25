@@ -66,7 +66,12 @@ const sendEventToApi = async ({
     console.error(
       "You must configure the Laylo SDK with an id, access key, and secret key using the config method."
     );
-    return;
+
+    return {
+      status: "failure",
+      reason:
+        "You must configure the Laylo SDK with an id, access key, and secret key using the config method.",
+    };
   }
 
   const timestamp = Date.now().toString();

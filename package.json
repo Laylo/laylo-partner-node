@@ -1,5 +1,5 @@
 {
-  "name": "@laylo/partner-node",
+  "name": "@laylo/partner",
   "version": "0.0.1",
   "description": "The official Laylo partner Node.js SDK",
   "main": "./dist/index.js",
@@ -12,7 +12,8 @@
     "dist"
   ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
+    "test:watch": "jest --watch",
     "server": "tsx src/testServer/index.ts",
     "build": "tsc",
     "prepublishOnly": "rollup -c"
@@ -22,11 +23,13 @@
   "devDependencies": {
     "@rollup/plugin-commonjs": "^25.0.3",
     "@rollup/plugin-node-resolve": "^15.1.0",
+    "@types/jest": "^29.5.12",
     "@types/node": "^20.12.12",
     "@typescript-eslint/eslint-plugin": "^6.0.0",
     "@typescript-eslint/parser": "^6.0.0",
     "rollup": "^3.27.2",
     "rollup-plugin-typescript2": "^0.36.0",
+    "ts-jest": "^29.1.5",
     "tslib": "^2.6.1",
     "typescript": "^5.1.6"
   },
