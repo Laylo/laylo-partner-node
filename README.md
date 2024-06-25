@@ -46,7 +46,7 @@ laylo.config({
 
 ### Customer API Keys
 
-Your customers’ need to be able to provide you with their Laylo API keys. They can create multiple API keys and revoke them as well. Within your platform they should be able to save their Laylo API key.
+Your customers need to be able to provide you with their Laylo API keys. They can create multiple API keys and revoke them as well. Within your platform they should be able to save their Laylo API key.
 
 They can generate Laylo API keys in their API Keyring at [https://laylo.com/settings?tab=Integrations](https://laylo.com/settings?tab=Integrations).
 
@@ -60,7 +60,7 @@ Once you have a customer’s API key and an event that you wish to turn into a t
 import laylo from "@laylo.com/partner";
 
 await laylo.conversions.track({
-  customerApiKey: "CUSTOMER_API_KEY",
+  customerApiKey: "CUSTOMER_API_KEY", // *required* THIS IS NOT YOUR API KEY. THIS IS EACH OF OUR MUTUAL CUSTOMER'S LAYLO API KEY.
   action: "PURCHASE", // *required* one of ['PURCHASE', 'CHECK_IN', 'ADD_TO_CART']
   name: "MSG - 04/05/2025", // *required* an identifier that indicates what the fan has purchased (ideally human-readable)
   metadata: {
