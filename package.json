@@ -1,6 +1,6 @@
 {
   "name": "@laylo.com/partner",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "author": "Laylo",
   "description": "The official Laylo partner Node.js SDK",
   "main": "./dist/index.js",

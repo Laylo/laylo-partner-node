@@ -32,7 +32,7 @@ Before you make a track call you need to configure your SDK instance. We recomme
 
 The `id`, `accessKey`, and `secretKey` arguments in the example below **belong to you and not your customers.** You can create as many API keys as you want and revoke them at your own discretion.
 
-_If you’d like to integrate a laylo pixel, please reach out to [contact@laylo.com](mailto:contact@laylo.com) to inquire about creating integrator API keys._
+_If you’d like to integrate a laylo pixel, please reach out to [contact@laylo.com](mailto:contact@laylo.com) to inquire about creating Partner API keys._
 
 ```tsx
 import laylo from "@laylo.com/partner";
@@ -48,7 +48,9 @@ laylo.config({
 
 Your customers’ need to be able to provide you with their Laylo API keys. They can create multiple API keys and revoke them as well. Within your platform they should be able to save their Laylo API key.
 
-They can generate API keys at [https://laylo.com/settings?tab=Integrations](https://laylo.com/settings?tab=Integrations)
+They can generate Laylo API keys at [https://laylo.com/settings?tab=Integrations](https://laylo.com/settings?tab=Integrations).
+
+[You can also send them this link which contains documentation on how to generate a Laylo API key.](https://www.notion.so/laylo/APIs-and-Integrations-75bdd31f50e649aaa9a2f68f568dcd28?pvs=4#ee8d94c63ba74dd8b5286be773753a71)
 
 ### Creating a Conversion
 
