@@ -19,3 +19,20 @@ export type User = {
   /** Add additional metadata about the user that you want to see on the event. */
   [key: string]: string | boolean | number | undefined;
 };
+
+export type TrackResponse =
+  | {
+      status: "failure";
+      message: string;
+    }
+  | {
+      status: "success";
+      payload: {
+        customerApiKey: string;
+        action: LayloAction;
+        name: string;
+        timestamp: string;
+        metadata: Metadata;
+        user: User;
+      };
+    };

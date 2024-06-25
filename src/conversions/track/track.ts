@@ -1,5 +1,5 @@
 import crypto from "crypto";
-import { LayloAction, Metadata, User } from "../types";
+import { LayloAction, Metadata, TrackResponse, User } from "../types";
 import { hasTrackError } from "./hasTrackError";
 import { configuration } from "../../config";
 import { makeRequest } from "../../lib";
@@ -22,7 +22,7 @@ export const track = async ({
   user: User;
   /** This is your customer's Laylo API key that they create at https://laylo.com/settings?tab=Integrations. It should be securely stored in your backend and never exposed on the frontend. */
   customerApiKey: string;
-}) => {
+}): Promise<TrackResponse> => {
   const trackError = hasTrackError({
     configuration,
     action,
@@ -33,7 +33,7 @@ export const track = async ({
   });
 
   if (trackError) {
-    return { status: "failure", reason: trackError };
+    return { status: "failure", message: trackError };
   }
 
   return await sendEventToApi({
@@ -57,7 +57,7 @@ const sendEventToApi = async ({
   metadata: Metadata;
   user: User;
   customerApiKey: string;
-}) => {
+}): Promise<TrackResponse> => {
   if (
     !configuration.accessKey ||
     !configuration.secretKey ||
@@ -69,7 +69,7 @@ const sendEventToApi = async ({
 
     return {
       status: "failure",
-      reason:
+      message:
         "You must configure the Laylo SDK with an id, access key, and secret key using the config method.",
     };
   }
@@ -147,6 +147,8 @@ const sendEventToApi = async ({
 
   return {
     status: "failure",
-    ...responseBody,
+    ...(responseBody as {
+      message: string;
+    }),
   };
 };
