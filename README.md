@@ -48,7 +48,7 @@ laylo.config({
 
 Your customers’ need to be able to provide you with their Laylo API keys. They can create multiple API keys and revoke them as well. Within your platform they should be able to save their Laylo API key.
 
-They can generate Laylo API keys at [https://laylo.com/settings?tab=Integrations](https://laylo.com/settings?tab=Integrations).
+They can generate Laylo API keys in their API Keyring at [https://laylo.com/settings?tab=Integrations](https://laylo.com/settings?tab=Integrations).
 
 [You can also send them this link which contains documentation on how to generate a Laylo API key.](https://www.notion.so/laylo/APIs-and-Integrations-75bdd31f50e649aaa9a2f68f568dcd28?pvs=4#ee8d94c63ba74dd8b5286be773753a71)
 
