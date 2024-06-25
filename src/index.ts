@@ -1,5 +1,6 @@
-import * as config from "./config";
-export * as config from "./config";
+import { config } from "./config";
+export { config } from "./config";
+export type { Configuration } from "./config";
 import * as conversions from "./conversions";
 export * as conversions from "./conversions";
 

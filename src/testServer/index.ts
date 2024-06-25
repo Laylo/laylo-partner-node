@@ -1,7 +1,7 @@
 import * as http from "http";
-import { conversions } from "../index";
+import { conversions, config } from "../index";
 
-conversions.config({
+config({
   id: "LAYLO_ACCOUNT_ID",
   accessKey: "LAYLO_ACCESS_KEY",
   secretKey: "LAYLO_SECRET_KEY",

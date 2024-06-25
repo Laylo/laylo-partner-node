@@ -1,14 +1,14 @@
 # Laylo Partner SDK Documentation
 
 <aside>
-💧 In order to get your API keys please reach out to **contact@laylo.com**
+💧 In order to get your API keys please reach out to contact@laylo.com
 </aside>
 
 # Overview
 
 ## Introduction
 
-The Laylo Conversions Node SDK allows you to pass your customers’ conversion events to Laylo. This is similar to using platforms such as Google Analytics to track events and conversions. With this conversion data, customers are able to better segment their fans for targeted messaging. For example, they can send a message to all fans that have signed up for a drop but not yet purchased a ticket - driving engaged and interested fans to the ticketing platform.
+The Laylo Partner Node SDK allows you to pass your customers’ conversion events to Laylo. This is similar to using platforms such as Google Analytics to track events and conversions. With this conversion data, customers are able to better segment their fans for targeted messaging. For example, they can send a message to all fans that have signed up for a drop but not yet purchased a ticket - driving engaged and interested fans to the ticketing platform.
 
 ## Usage
 
@@ -17,25 +17,25 @@ The Laylo Conversions Node SDK allows you to pass your customers’ conversion e
 In your terminal run
 
 ```jsx
-npm install @laylo/sdk
+npm install @laylo/partner
 ```
 
 or
 
 ```jsx
-yarn add @laylo/sdk
+yarn add @laylo/partner
 ```
 
 ### **Configuration**
 
 Before you make a track call you need to configure your SDK instance. We recommend doing this where you set up other third party services and clients, soon after your server or lambda starts.
 
-The `id` and `key` arguments in the example below **belong to you and not your customers.** You can create as many API keys as you want and revoke them at your own discretion.
+The `id`, `accessKey`, and `secretKey` arguments in the example below **belong to you and not your customers.** You can create as many API keys as you want and revoke them at your own discretion.
 
 _If you’d like to integrate a laylo pixel, please reach out to [contact@laylo.com](mailto:contact@laylo.com) to inquire about creating integrator API keys._
 
 ```tsx
-import laylo from "@laylo/sdk";
+import laylo from "@laylo/partner";
 
 laylo.config({
   id: "YOUR_LAYLO_USER_ID",
@@ -55,9 +55,9 @@ They can generate API keys at [https://laylo.com/settings?tab=Integrations](http
 Once you have a customer’s API key and an event that you wish to turn into a tracked conversion you will call the `track` method.
 
 ```tsx
-import laylo from "@laylo/sdk";
+import laylo from "@laylo/partner";
 
-await laylo.track({
+await laylo.conversions.track({
   customerApiKey: "CUSTOMER_API_KEY",
   action: "PURCHASE", // *required* one of ['PURCHASE', 'CHECK_IN', 'ADD_TO_CART']
   name: "MSG - 04/05/2025", // *required* an identifier that indicates what the fan has purchased (ideally human-readable)
@@ -84,11 +84,11 @@ Customers are able to filter and segment their fans based on actions they have t
 
 **First Filter (`action`)**
 
-The `action` sent with the `laylo.track` call can be filtered on. For example, `action: "PURCHASE"`. This allows customers to send messages to all fans that have purchased a ticket. It also allows customers to send messages to all fans that have not purchased a ticket.
+The `action` sent with the `laylo.conversions.track` call can be filtered on. For example, `action: "PURCHASE"`. This allows customers to send messages to all fans that have purchased a ticket. It also allows customers to send messages to all fans that have not purchased a ticket.
 
 **Second Filter (`name`)**
 
-The `name` sent with the `laylo.track` provides an additional filter for the customer. For example, they can message all fans that have purchased a ticket to the show at Madison Square Garden on April 5, 2025 by using `name: "MSG - 04/05/2025"`.
+The `name` sent with the `laylo.conversions.track` provides an additional filter for the customer. For example, they can message all fans that have purchased a ticket to the show at Madison Square Garden on April 5, 2025 by using `name: "MSG - 04/05/2025"`.
 
 The `name` should be specific to the event, merch, product, etc. that is purchased by the fan. It does not need to be unique for each fan or each customer. Multiple of your customers can have the conversion name `MSG - 04/05/2025`.
 
@@ -185,9 +185,9 @@ type User = {
 Performers and teams have identified this information as crucial to their success. They want a way to engage with fans that have attended events both pre-show and post-show. As well, being able to directly reach out to fans that have not yet purchased a ticket but have shown interest through a Laylo drop is a great way to close out the sales period.
 
 ```tsx
-import laylo from "@laylo/sdk";
+import laylo from "@laylo/partner";
 
-await laylo.track({
+await laylo.conversions.track({
   customerApiKey: "123",
   action: "PURCHASE",
   name: "MSG_04_05_2025",
@@ -208,9 +208,9 @@ await laylo.track({
 Passing a scanned ticket or check in conversion allows customers to interact with fans at a show. They can push special promotions to them, such as discounts off merch or third party promotions (free Bud Light for the next 20 minutes).
 
 ```tsx
-import laylo from "@laylo/sdk";
+import laylo from "@laylo/partner";
 
-await laylo.track({
+await laylo.conversions.track({
   customerApiKey: "123",
   action: "CHECK_IN",
   name: "MSG_04_05_2025",
