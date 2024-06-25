@@ -17,13 +17,13 @@ The Laylo Partner Node SDK allows you to pass your customers’ conversion event
 In your terminal run
 
 ```jsx
-npm install @laylo/partner
+npm install @laylo.com/partner
 ```
 
 or
 
 ```jsx
-yarn add @laylo/partner
+yarn add @laylo.com/partner
 ```
 
 ### **Configuration**
@@ -35,7 +35,7 @@ The `id`, `accessKey`, and `secretKey` arguments in the example below **belong t
 _If you’d like to integrate a laylo pixel, please reach out to [contact@laylo.com](mailto:contact@laylo.com) to inquire about creating integrator API keys._
 
 ```tsx
-import laylo from "@laylo/partner";
+import laylo from "@laylo.com/partner";
 
 laylo.config({
   id: "YOUR_LAYLO_USER_ID",
@@ -55,7 +55,7 @@ They can generate API keys at [https://laylo.com/settings?tab=Integrations](http
 Once you have a customer’s API key and an event that you wish to turn into a tracked conversion you will call the `track` method.
 
 ```tsx
-import laylo from "@laylo/partner";
+import laylo from "@laylo.com/partner";
 
 await laylo.conversions.track({
   customerApiKey: "CUSTOMER_API_KEY",
@@ -185,7 +185,7 @@ type User = {
 Performers and teams have identified this information as crucial to their success. They want a way to engage with fans that have attended events both pre-show and post-show. As well, being able to directly reach out to fans that have not yet purchased a ticket but have shown interest through a Laylo drop is a great way to close out the sales period.
 
 ```tsx
-import laylo from "@laylo/partner";
+import laylo from "@laylo.com/partner";
 
 await laylo.conversions.track({
   customerApiKey: "123",
@@ -208,7 +208,7 @@ await laylo.conversions.track({
 Passing a scanned ticket or check in conversion allows customers to interact with fans at a show. They can push special promotions to them, such as discounts off merch or third party promotions (free Bud Light for the next 20 minutes).
 
 ```tsx
-import laylo from "@laylo/partner";
+import laylo from "@laylo.com/partner";
 
 await laylo.conversions.track({
   customerApiKey: "123",
