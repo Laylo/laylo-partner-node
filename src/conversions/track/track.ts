@@ -1,8 +1,8 @@
 import crypto from "crypto";
-import nodeFetch from "node-fetch";
 import { LayloAction, Metadata, User } from "../types";
 import { hasTrackError } from "./hasTrackError";
 import { configuration } from "../../config";
+import { makeRequest } from "../../lib";
 
 /** Track an event/conversion in the Laylo platform. Using your editor you can click into the properties and user parameters in order to view their types. */
 export const track = async ({
@@ -96,15 +96,18 @@ const sendEventToApi = async ({
 
   const authorization = `${encodedHeader}.${encodedPayload}.${signature}`;
 
-  const response = await nodeFetch("https://events.laylo.com/track", {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${authorization}`,
-      creatorId: "sdk",
-      layloFid: "sdk",
+  const response = await makeRequest(
+    "https://events.laylo.com/track",
+    {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${authorization}`,
+        creatorId: "sdk",
+        layloFid: "sdk",
+      },
     },
-    body: JSON.stringify({
+    JSON.stringify({
       Data: {
         type: "createConversion",
         payload: {
@@ -118,10 +121,10 @@ const sendEventToApi = async ({
         },
       },
       PartitionKey: configuration.id,
-    }),
-  });
+    })
+  );
 
-  const responseBody = (await response.json()) as
+  const responseBody = JSON.parse(response.body) as
     | { message: string }
     | { SequenceNumber: string };
 
