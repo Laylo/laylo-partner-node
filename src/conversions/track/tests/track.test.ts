@@ -1,15 +1,23 @@
-jest.mock("node-fetch", () =>
-  jest.fn(() => ({ json: () => ({ status: "success" }) }))
-);
-
 import { config } from "../../../";
 import { track } from "../track";
 
+jest.mock("../../../lib", () => ({
+  makeRequest: jest.fn(() => ({ body: '{"SequenceNumber":"test"}' })),
+}));
+
 describe("track", () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
   // ignore the console.error messages
   jest.spyOn(console, "error").mockImplementation();
 
   it("should send the event to the Laylo API", async () => {
+    jest.mock("../hasTrackError", () => ({
+      hasTrackError: jest.fn(() => null),
+    }));
+
     config({
       id: "AN_ID",
       accessKey: "AN_ACCESS_KEY",
@@ -34,10 +42,31 @@ describe("track", () => {
       customerApiKey,
     });
 
-    expect(result).toEqual({ status: "success" });
+    expect(result).toMatchObject({
+      status: "success",
+      payload: {
+        action: "PURCHASE",
+        customerApiKey: "A_CU****_KEY",
+        metadata: {
+          title: "EVENT_ID",
+          value: 100,
+        },
+        name: "MSG Square - 05/21/22",
+        user: {
+          email: "foo@foo.com",
+          id: "123",
+          marketingConsent: true,
+          phone: "+1111111111",
+        },
+      },
+    });
   });
 
   it("should fail to send the event to the Laylo API", async () => {
+    jest.mock("../hasTrackError", () => ({
+      hasTrackError: jest.fn(() => "Error"),
+    }));
+
     config({
       id: "",
       accessKey: "",
