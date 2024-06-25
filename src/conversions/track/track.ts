@@ -121,5 +121,29 @@ const sendEventToApi = async ({
     }),
   });
 
-  return await response.json();
+  const responseBody = (await response.json()) as
+    | { message: string }
+    | { SequenceNumber: string };
+
+  if ((responseBody as { SequenceNumber: string }).SequenceNumber) {
+    return {
+      status: "success",
+      payload: {
+        customerApiKey: `${customerApiKey.slice(
+          0,
+          4
+        )}****${customerApiKey.slice(-4)}`,
+        action,
+        name,
+        timestamp,
+        metadata,
+        user,
+      },
+    };
+  }
+
+  return {
+    status: "failure",
+    ...responseBody,
+  };
 };
