@@ -54,7 +54,7 @@ They can generate Laylo API keys in their API Keyring at [https://laylo.com/sett
 
 ### Acquisition Source
 
-When you create an API key you give it a `name`. The name you set will be used in the Laylo UI as the acquisition source for a new fan. We recommended setting the label to your company or product name.
+When you create an API key, you give it a `name`. The name you set will be used in the Laylo UI as the acquisition source for a new fan. We recommended setting the label to your company or product name.
 
 ### Creating a Conversion
 
