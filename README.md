@@ -52,6 +52,10 @@ They can generate Laylo API keys in their API Keyring at [https://laylo.com/sett
 
 [You can also send them this link which contains documentation on how to generate a Laylo API key.](https://www.notion.so/laylo/APIs-and-Integrations-75bdd31f50e649aaa9a2f68f568dcd28?pvs=4#ee8d94c63ba74dd8b5286be773753a71)
 
+### Acquisition Source
+
+When you create an API key you give it a `name`. The name you set will be used in the Laylo UI as the acquisition source for a new fan. We recommended setting the label to your company or product name.
+
 ### Creating a Conversion
 
 Once you have a customer’s API key and an event that you wish to turn into a tracked conversion you will call the `track` method.
