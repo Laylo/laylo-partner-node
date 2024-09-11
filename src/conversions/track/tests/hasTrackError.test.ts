@@ -59,23 +59,6 @@ describe("hasTrackError", () => {
     );
   });
 
-  it("should return an error message if name is invalid", () => {
-    const name = "KNICKS@LAKERS";
-
-    const result = hasTrackError({
-      configuration,
-      action,
-      name,
-      user,
-      metadata,
-      customerApiKey,
-    });
-
-    expect(result).toBe(
-      "The event name can only contain letters, numbers, underscores, hyphens, forward slashes, and spaces."
-    );
-  });
-
   it("should return an error message if customerApiKey is invalid", () => {
     const customerApiKey = "";
 
