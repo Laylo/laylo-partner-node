@@ -1,4 +1,4 @@
-import { isValidActionName, isValidEventName } from "../";
+import { isValidActionName } from "../";
 
 describe("isValidActionName", () => {
   it("should return true for valid action names", () => {
@@ -9,17 +9,5 @@ describe("isValidActionName", () => {
 
   it("should return false for invalid action name", () => {
     expect(isValidActionName("BUY")).toBe(false);
-  });
-});
-
-describe("isValidEventName", () => {
-  it("should return true for valid event name", () => {
-    const eventName = "MSG Square - 05/21/22";
-    expect(isValidEventName(eventName)).toBe(true);
-  });
-
-  it("should return false for invalid event name", () => {
-    const eventName = "KNICKS@LAKERS";
-    expect(isValidEventName(eventName)).toBe(false);
   });
 });

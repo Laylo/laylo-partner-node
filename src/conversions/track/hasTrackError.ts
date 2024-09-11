@@ -1,5 +1,4 @@
 import { LayloAction, Metadata, User } from "../types";
-import { isValidEventName } from "../lib/isValidEventName";
 import { isValidActionName } from "../lib";
 import { Configuration } from "../../config";
 
@@ -35,14 +34,6 @@ export const hasTrackError = ({
     );
 
     return "The action must be one of the following: 'PURCHASE', 'CHECK_IN', 'ADD_TO_CART'.";
-  }
-
-  if (!isValidEventName(name)) {
-    console.error(
-      "The event name can only contain letters, numbers, underscores, hyphens, forward slashes, and spaces."
-    );
-
-    return "The event name can only contain letters, numbers, underscores, hyphens, forward slashes, and spaces.";
   }
 
   if (!customerApiKey) {
