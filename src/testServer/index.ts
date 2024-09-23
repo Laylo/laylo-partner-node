@@ -5,6 +5,7 @@ config({
   id: "LAYLO_ACCOUNT_ID",
   accessKey: "LAYLO_ACCESS_KEY",
   secretKey: "LAYLO_SECRET_KEY",
+  companyName: "LAYLO_COMPANY_NAME",
 });
 
 const PORT = 3000;
