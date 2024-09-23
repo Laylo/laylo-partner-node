@@ -41,7 +41,7 @@ describe("track", () => {
       user,
       metadata,
       customerApiKey,
-      layloProductId: "FOO",
+      layloProductId: "PROD_123ABC",
     });
 
     expect(result).toMatchObject({
@@ -53,7 +53,7 @@ describe("track", () => {
         metadata: {
           title: "EVENT_ID",
           value: 100,
-          productId: "FOO",
+          productId: "PROD_123ABC",
         },
         name: "MSG Square - 05/21/22",
         user: {

@@ -1,7 +1,7 @@
 export type LayloAction = "PURCHASE" | "CHECK_IN" | "ADD_TO_CART";
 
 export type Metadata = {
-  /** The Laylo product id that the event is associated with. */
+  /** The Laylo product ID associated with the event. Optional, but recommended for better tracking. */
   productId?: string;
   /** The currency code (ISO 4217) if the conversion is a transaction with a price. Ex: USD, EUR, GBP, etc. */
   currency?: string;

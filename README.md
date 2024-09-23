@@ -41,6 +41,7 @@ laylo.config({
   id: "YOUR_LAYLO_USER_ID",
   accessKey: "YOUR_API_ACCESS_KEY",
   secretKey: "YOUR_API_SECRET_KEY",
+  companyName: "YOUR_COMPANY_NAME",
 });
 ```
 
@@ -75,6 +76,7 @@ await laylo.conversions.track({
     marketingConsent: true, // if a phone number or email is not already opted into the customer this indicates that you
     // have received permission from them to subscribe to updates from the customer
   },
+  layloProductId: "PROD_123", // an optional laylo productId that helps the customer better track engagement. you will need to get this value from the customer and it can change depending on the conversion flow.
 });
 ```
 
@@ -140,6 +142,9 @@ type TrackParams = {
 
 	/** This is your customer's Laylo API key that they create at https://laylo.com/settings?tab=Integrations. It should be securely stored in your backend and never exposed on the frontend. */
 	customerApiKey: string;
+
+  /** The Laylo product ID associated with the event. Optional, but recommended for better tracking. */
+  layloProductId?: string;
 }
 ```
 
@@ -202,6 +207,7 @@ await laylo.conversions.track({
     phone: "+1234567890",
     marketingConsent: true,
   },
+  layloProductId: "PROD_123",
 });
 ```
 
@@ -223,5 +229,6 @@ await laylo.conversions.track({
     phone: "+1234567890",
     marketingConsent: true,
   },
+  layloProductId: "PROD_ABC",
 });
 ```
