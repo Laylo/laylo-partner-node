@@ -23,7 +23,7 @@ export const track = async ({
   user: User;
   /** This is your customer's Laylo API key that they create at https://laylo.com/settings?tab=Integrations. It should be securely stored in your backend and never exposed on the frontend. */
   customerApiKey: string;
-  /** The Laylo product id that the event is associated with. */
+  /** The Laylo product ID associated with the event. Optional, but recommended for better tracking. */
   layloProductId?: string;
 }): Promise<TrackResponse> => {
   const trackError = hasTrackError({
@@ -124,7 +124,7 @@ const sendEventToApi = async ({
           timestamp,
           metadata: {
             ...metadata,
-            productId: layloProductId,
+            ...(layloProductId && { productId: layloProductId }),
           },
           user,
           integratorId: configuration.id,
@@ -152,7 +152,7 @@ const sendEventToApi = async ({
         timestamp,
         metadata: {
           ...metadata,
-          productId: layloProductId,
+          ...(layloProductId && { productId: layloProductId }),
         },
         user,
       },
