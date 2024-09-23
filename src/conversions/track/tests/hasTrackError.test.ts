@@ -1,14 +1,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { Configuration } from "config";
 import { hasTrackError } from "../hasTrackError";
 
 describe("hasTrackError", () => {
   // ignore the console.error messages
   jest.spyOn(console, "error").mockImplementation();
 
-  const configuration = {
+  const configuration: Configuration = {
     id: "AN_ID",
     accessKey: "AN_ACCESS_KEY",
     secretKey: "A_SECRET_KEY",
+    companyName: "A_COMPANY_NAME",
   };
   const action = "PURCHASE";
   const name = "MSG Square - 05/21/22";
@@ -22,10 +24,11 @@ describe("hasTrackError", () => {
   const customerApiKey = "A_CUSTOMER_API_KEY";
 
   it("should return an error message if configuration is invalid", () => {
-    const configuration = {
+    const configuration: Configuration = {
       id: "",
       accessKey: "",
       secretKey: "",
+      companyName: "A_COMPANY_NAME",
     };
 
     const result = hasTrackError({

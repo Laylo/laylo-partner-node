@@ -1,6 +1,8 @@
 export type LayloAction = "PURCHASE" | "CHECK_IN" | "ADD_TO_CART";
 
 export type Metadata = {
+  /** The Laylo product id that the event is associated with. */
+  productId?: string;
   /** The currency code (ISO 4217) if the conversion is a transaction with a price. Ex: USD, EUR, GBP, etc. */
   currency?: string;
   /** The total price of the transaction. It must be a decimal number with no more than two decimal places (ex: 12.02, 5.00)  */
@@ -31,6 +33,7 @@ export type TrackResponse =
         customerApiKey: string;
         action: LayloAction;
         name: string;
+        source: string;
         timestamp: string;
         metadata: Metadata;
         user: User;

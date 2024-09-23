@@ -8,5 +8,6 @@ export const config = (config: Configuration) => {
     id: config.id,
     accessKey: config.accessKey,
     secretKey: config.secretKey,
+    companyName: config.companyName,
   };
 };

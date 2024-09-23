@@ -22,6 +22,7 @@ describe("track", () => {
       id: "AN_ID",
       accessKey: "AN_ACCESS_KEY",
       secretKey: "A_SECRET_KEY",
+      companyName: "A_COMPANY_NAME",
     });
     const action = "PURCHASE";
     const name = "MSG Square - 05/21/22";
@@ -40,6 +41,7 @@ describe("track", () => {
       user,
       metadata,
       customerApiKey,
+      layloProductId: "FOO",
     });
 
     expect(result).toMatchObject({
@@ -47,9 +49,11 @@ describe("track", () => {
       payload: {
         action: "PURCHASE",
         customerApiKey: "A_CU****_KEY",
+        source: "A_COMPANY_NAME",
         metadata: {
           title: "EVENT_ID",
           value: 100,
+          productId: "FOO",
         },
         name: "MSG Square - 05/21/22",
         user: {
@@ -71,6 +75,7 @@ describe("track", () => {
       id: "",
       accessKey: "",
       secretKey: "",
+      companyName: "",
     });
     const action = "PURCHASE";
     const name = "MSG Square - 05/21/22";
