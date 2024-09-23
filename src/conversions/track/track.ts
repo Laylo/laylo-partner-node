@@ -11,6 +11,7 @@ export const track = async ({
   metadata,
   user,
   customerApiKey,
+  layloProductId,
 }: {
   /** Categorize the action taken by the user. It can be one of the following: 'PURCHASE', 'CHECK_IN', 'ADD_TO_CART' */
   action: LayloAction;
@@ -22,6 +23,8 @@ export const track = async ({
   user: User;
   /** This is your customer's Laylo API key that they create at https://laylo.com/settings?tab=Integrations. It should be securely stored in your backend and never exposed on the frontend. */
   customerApiKey: string;
+  /** The Laylo product id that the event is associated with. */
+  layloProductId?: string;
 }): Promise<TrackResponse> => {
   const trackError = hasTrackError({
     configuration,
@@ -42,6 +45,7 @@ export const track = async ({
     metadata,
     user,
     customerApiKey,
+    layloProductId,
   });
 };
 
@@ -51,12 +55,14 @@ const sendEventToApi = async ({
   metadata,
   user,
   customerApiKey,
+  layloProductId,
 }: {
   action: LayloAction;
   name: string;
   metadata: Metadata;
   user: User;
   customerApiKey: string;
+  layloProductId?: string;
 }): Promise<TrackResponse> => {
   if (
     !configuration.accessKey ||
@@ -114,10 +120,14 @@ const sendEventToApi = async ({
           apiKey: customerApiKey,
           action,
           name,
-          source: configuration.id,
+          source: configuration.companyName,
           timestamp,
-          metadata,
+          metadata: {
+            ...metadata,
+            productId: layloProductId,
+          },
           user,
+          integratorId: configuration.id,
         },
       },
       PartitionKey: configuration.id,
@@ -138,8 +148,12 @@ const sendEventToApi = async ({
         )}****${customerApiKey.slice(-4)}`,
         action,
         name,
+        source: configuration.companyName,
         timestamp,
-        metadata,
+        metadata: {
+          ...metadata,
+          productId: layloProductId,
+        },
         user,
       },
     };
