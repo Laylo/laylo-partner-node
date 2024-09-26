@@ -103,12 +103,13 @@ const sendEventToApi = async ({
   const authorization = `${encodedHeader}.${encodedPayload}.${signature}`;
 
   const response = await makeRequest(
-    "https://events.laylo.com/track",
+    "https://events.laylo.com/friends",
     {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${authorization}`,
+        "laylo-id": configuration.id,
         creatorId: "sdk",
         layloFid: "sdk",
       },
