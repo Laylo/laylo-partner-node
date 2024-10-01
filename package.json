@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "author": "Laylo",
   "description": "The official Laylo partner Node.js SDK",
+  "private": true,
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "repository": {
@@ -18,8 +19,7 @@
     "server": "tsx src/testServer/index.ts",
     "build": "tsc",
     "prepublishOnly": "rollup -c",
-    "preinstall": "node checkToken.js",
-    "check-token": "if [ ! -f .npmrc ]; then echo 'Error: .npmrc file is missing. Please provide the necessary configuration.'; exit 1; fi;                    if ! grep -q 'token=' .npmrc; then echo 'Error: Token is missing. Please provide a valid token.'; exit 1; fi;                    TOKEN=$(grep '^token=' .npmrc | cut -d'=' -f2);                    RESPONSE=$(curl -sSL -X GET https://dev.laylo.com/api/check-integrator-key/$TOKEN);                    if [[ ! $RESPONSE == *\"success\":true* ]]; then                      echo 'Error: Invalid token. Please check your .npmrc file or contact the package administrator.';                      exit 1;                    fi;                    echo 'Token validated. Proceeding with installation.';"
+    "preinstall": "node checkToken.js"
   },
   "license": "MIT",
   "devDependencies": {

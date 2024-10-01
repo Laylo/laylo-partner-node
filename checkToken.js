@@ -6,7 +6,7 @@ const path = require("path");
 const npmrcPath = path.resolve(".npmrc");
 const npmrcContent = fs.readFileSync(npmrcPath, "utf-8");
 
-// Extract the token (assuming it's stored as //registry.npmjs.org/:_authToken=<token>)
+// Extract the token
 const tokenMatch = npmrcContent.match(/@laylo:token=(.*)/);
 const token = tokenMatch ? tokenMatch[1] : null;
 
@@ -16,7 +16,7 @@ if (!token) {
 }
 
 // Send the token to the API endpoint for verification
-const apiUrl = `https://dev.laylo.com/api/check-integrator-key/${token}`; // Replace with your actual API endpoint
+const apiUrl = `https://laylo.com/api/check-integrator-key/${token}`;
 const url = new URL(apiUrl);
 
 const data = JSON.stringify({ token });
@@ -40,6 +40,7 @@ const req = https.request(options, (res) => {
 
   res.on("end", () => {
     try {
+      console.log(responseData);
       const parsedData = JSON.parse(responseData);
 
       if (res.statusCode === 200 && parsedData.success) {
@@ -47,12 +48,14 @@ const req = https.request(options, (res) => {
         process.exit(0); // Exit with success
       } else {
         console.error(
+          parsedData,
           "Laylo token verification failed. Please check your token in .npmrc. Reach out to your Laylo contact for additional help."
         );
         process.exit(1); // Exit with failure
       }
     } catch (error) {
       console.error(
+        error,
         "Laylo token verification failed. Please check your token in .npmrc. Reach out to your Laylo contact for additional help."
       );
       process.exit(1); // Exit with failure
