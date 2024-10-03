@@ -41,7 +41,6 @@ const req = https.request(options, (res) => {
 
   res.on("end", () => {
     try {
-      console.log(responseData);
       const parsedData = JSON.parse(responseData);
 
       if (res.statusCode === 200 && parsedData.success) {
@@ -50,14 +49,14 @@ const req = https.request(options, (res) => {
       } else {
         console.error(
           parsedData,
-          "Laylo token verification failed. Please check your token in .npmrc. Reach out to your Laylo contact for additional help.",
+          "Laylo token verification failed. Please check your token in .npmrc. Reach out to your Laylo contact for additional help."
         );
         process.exit(1); // Exit with failure
       }
     } catch (error) {
       console.error(
         error,
-        "Laylo token verification failed. Please check your token in .npmrc. Reach out to your Laylo contact for additional help.",
+        "Laylo token verification failed. Please check your token in .npmrc. Reach out to your Laylo contact for additional help."
       );
       process.exit(1); // Exit with failure
     }
@@ -66,7 +65,7 @@ const req = https.request(options, (res) => {
 
 req.on("error", (error) => {
   console.error(
-    "Laylo token verification failed. Please check your token in .npmrc. Reach out to your Laylo contact for additional help.",
+    "Laylo token verification failed. Please check your token in .npmrc. Reach out to your Laylo contact for additional help."
   );
   process.exit(1); // Exit with failure
 });
