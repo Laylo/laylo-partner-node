@@ -6,10 +6,6 @@ export type Metadata = {
   /** The currency code (ISO 4217) if the conversion is a transaction with a price. Ex: USD, EUR, GBP, etc. */
   currency?: string;
   /** The total price of the transaction. It must be a decimal number with no more than two decimal places (ex: 12.02, 5.00)  */
-  totalCost?: number;
-  /**
-   * @deprecated Use `totalCost` instead. The total price of the transaction. It must be a decimal number with no more than two decimal places (ex: 12.02, 5.00)
-   */
   totalPrice?: number;
   /** Add additional metadata about the event that you want to see on the event. */
   [key: string]: string | boolean | number | undefined;
