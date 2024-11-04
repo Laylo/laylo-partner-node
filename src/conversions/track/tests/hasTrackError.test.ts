@@ -18,7 +18,7 @@ describe("hasTrackError", () => {
     id: "123",
     email: "foo@foo.com",
     phone: "+1111111111",
-    marketingConsent: true,
+    smsMarketingConsent: true,
   };
   const metadata = { title: "EVENT_ID", value: 100 };
   const customerApiKey = "A_CUSTOMER_API_KEY";
@@ -84,7 +84,7 @@ describe("hasTrackError", () => {
       id: "123",
       email: "",
       phone: "",
-      marketingConsent: true,
+      smsMarketingConsent: true,
     };
 
     const result = hasTrackError({

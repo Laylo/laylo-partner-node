@@ -16,7 +16,13 @@ export type User = {
   email?: string;
   /** Include the user's phone number or email. Must be a valid phone number with a country code. `+13101234567`. We recommend validating phone numbers using the library `libphonenumber-js` before sending them. */
   phone?: string;
-  /** If this is true then the user will be subscribed to your customer when they send Laylo emails and texts. If you pass a phone number then the user will be sent a confirmation text. Ensure that you have provided the user with the proper terms, conditions, and policies. */
+  /** If this is true then the user will be subscribed to your customer when they send Laylo texts. If you pass a phone number then the user will be sent a confirmation text. Ensure that you have provided the user with the proper terms, conditions, and policies. */
+  smsMarketingConsent?: boolean;
+  /** If this is true then the user will be subscribed to your customer when they send Laylo emails. Ensure that you have provided the user with the proper terms, conditions, and policies. */
+  emailMarketingConsent?: boolean;
+  /**
+   * @deprecated Use `smsMarketingConsent` or `emailMarketingConsent` instead.
+   **/
   marketingConsent?: boolean;
   /** Add additional metadata about the user that you want to see on the event. */
   [key: string]: string | boolean | number | undefined;

@@ -30,7 +30,7 @@ describe("track", () => {
       id: "123",
       email: "foo@foo.com",
       phone: "+1111111111",
-      marketingConsent: true,
+      smsMarketingConsent: true,
     };
     const metadata = { title: "EVENT_ID", value: 100 };
     const customerApiKey = "A_CUSTOMER_API_KEY";
@@ -59,7 +59,7 @@ describe("track", () => {
         user: {
           email: "foo@foo.com",
           id: "123",
-          marketingConsent: true,
+          smsMarketingConsent: true,
           phone: "+1111111111",
         },
       },
@@ -83,7 +83,7 @@ describe("track", () => {
       id: "123",
       email: "foo@foo.com",
       phone: "+1111111111",
-      marketingConsent: true,
+      smsMarketingConsent: true,
     };
     const metadata = { title: "EVENT_ID", value: 100 };
     const customerApiKey = "A_CUSTOMER_API_KEY";

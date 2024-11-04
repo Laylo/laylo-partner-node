@@ -23,7 +23,7 @@ const server = http.createServer(async (req, res) => {
         name: "TOUR",
         action: "PURCHASE",
         metadata: { title: "EVENT_ID", value: 100 },
-        user: { phone: "+1111111111", marketingConsent: true },
+        user: { phone: "+1111111111", smsMarketingConsent: true },
       });
 
       console.log(value);
