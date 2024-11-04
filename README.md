@@ -73,7 +73,7 @@ await laylo.conversions.track({
   user: {
     phone: "+1234567890", // a phone number or email is required
     email: "fan@laylo.com",
-    marketingConsent: true, // if a phone number or email is not already opted into the customer this indicates that you
+    smsMarketingConsent: true, // if a phone numbe is not already opted into the customer this indicates that you
     // have received permission from them to subscribe to updates from the customer
   },
   layloProductId: "PROD_123", // an optional laylo productId that helps the customer better track engagement. you will need to get this value from the customer and it can change depending on the conversion flow.
@@ -106,7 +106,43 @@ When using the [`user.phone`](http://user.phone) property you must include the c
 
 ### Marketing Consent
 
-Fans that have reached your platform through a Laylo RSVP are typically already opted in to the customer’s marketing consent. However, if you have a marketing consent checkbox on your platform it is highly recommended to send that information to Laylo. If they have agreed to marketing then add `user.marketingConsent: true` to the track call.
+Fans that have reached your platform through a Laylo RSVP are typically already opted in to the customer’s marketing consent. However, if you have a marketing consent checkbox on your platform it is highly recommended to send that information to Laylo. If they have agreed to marketing then add the following code to the track call. Be sure to check you are enabling marketing consent for the appropriate communication channel.
+
+**Email**
+
+`emailMarketingConsent: true`
+
+```jsx
+llo.track("PURCHASE", "MSG_04_05_2025",
+  {
+    currency: "USD",
+	  totalPrice: 100.00,
+	  location: "New York"
+  },
+  {
+	  emal: "astro@laylo.com",
+	  emailMarketingConsent: true
+  },
+});
+```
+
+**SMS (Phone number)**
+
+`smsMarketingConsent: true`
+
+```jsx
+llo.track("PURCHASE", "MSG_04_05_2025",
+  {
+    currency: "USD",
+	  totalPrice: 100.00,
+	  location: "New York"
+  },
+  {
+	  phone: "+1234567890",
+	  smsMarketingConsent: true
+  },
+});
+```
 
 We always adhere to the latest regulations so if you send a phone number we will send a confirmation text to the user before sending them any marketing messages.
 
@@ -175,10 +211,10 @@ type User = {
 	`+13101234567`. We recommend validating phone numbers using the library `libphonenumber-js` before sending them. */
   phone?: string;
 
-  /** If this is true then the user will be subscribed to your customer when they send Laylo emails and texts. 
-	If you pass a phone number then the user will be sent a confirmation text. 
-	Ensure that you have provided the user with the proper terms, conditions, and policies. */
-  marketingConsent?: boolean;
+  /** If this is true then the user will be subscribed to your customer when they send Laylo texts. If you pass a phone number then the user will be sent a confirmation text. Ensure that you have provided the user with the proper terms, conditions, and policies. */
+  smsMarketingConsent?: boolean;
+  /** If this is true then the user will be subscribed to your customer when they send Laylo emails. Ensure that you have provided the user with the proper terms, conditions, and policies. */
+  emailMarketingConsent?: boolean;
 
   /** Add additional metadata about the user that you want to see on the event. */
   [key: string]: string | boolean | number;
@@ -205,7 +241,7 @@ await laylo.conversions.track({
   },
   user: {
     phone: "+1234567890",
-    marketingConsent: true,
+    smsMarketingConsent: true,
   },
   layloProductId: "PROD_123",
 });
@@ -227,7 +263,7 @@ await laylo.conversions.track({
   },
   user: {
     phone: "+1234567890",
-    marketingConsent: true,
+    smsMarketingConsent: true,
   },
   layloProductId: "PROD_ABC",
 });
