@@ -198,10 +198,10 @@ type Metadata = {
   /** The total price of the transaction. It must be a decimal number with no more than two decimal places (ex: 12.02, 5.00)  */
   totalPrice?: string;
 
-  /** The URL that the conversion occurred on */
+  /** The URL of the page where the conversion occurred */
   href?: string;
 
-  /** The title of the page that the conversion occurred on */
+  /** The title of the page where the conversion occurred */
   title?: string;
 
   /** Add additional metadata about the event that you want to see on the event. */
