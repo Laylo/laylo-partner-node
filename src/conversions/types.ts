@@ -7,6 +7,10 @@ export type Metadata = {
   currency?: string;
   /** The total price of the transaction. It must be a decimal number with no more than two decimal places (ex: 12.02, 5.00)  */
   totalPrice?: number;
+  /** The URL that the conversion occurred on */
+  href?: string;
+  /** The title of the page that the conversion occurred on */
+  title?: string;
   /** Add additional metadata about the event that you want to see on the event. */
   [key: string]: string | boolean | number | undefined;
 };

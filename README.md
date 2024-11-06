@@ -65,16 +65,18 @@ await laylo.conversions.track({
   action: "PURCHASE", // *required* one of ['PURCHASE', 'CHECK_IN', 'ADD_TO_CART']
   name: "MSG - 04/05/2025", // *required* an identifier that indicates what the fan has purchased (ideally human-readable)
   metadata: {
-    // freeform json object
     currency: "USD",
     totalPrice: 100.0,
     location: "New York",
+    href: "https://tickets.me/Lakers-Celtics-Game-5",
+    title: "Lakers Celtic Game 5 2024 Finals",
+    // you can additional properties here
   },
   user: {
     phone: "+1234567890", // a phone number or email is required
     email: "fan@laylo.com",
-    smsMarketingConsent: true, // if a phone numbe is not already opted into the customer this indicates that you
-    // have received permission from them to subscribe to updates from the customer
+    smsMarketingConsent: true, // if the phone number isn't already opted in, this indicates you've received permission from the user to subscribe to customer updates
+    // you can add additional properties here
   },
   layloProductId: "PROD_123", // an optional laylo productId that helps the customer better track engagement. you will need to get this value from the customer and it can change depending on the conversion flow.
 });
@@ -152,10 +154,12 @@ You can send additional information about the conversion event or the user throu
 
 ### Special Metadata
 
-Some metadata properties are special and handled differently by Laylo. Current properties are:
+Some metadata properties are special and handled differently by Laylo. Including this data with a conversion provides our shared customer with a richer, more valuable experience. Current properties are:
 
 - `metadata.currency` - The currency code (ISO 4217) if the conversion is a transaction with a price. Ex: USD, EUR, GBP, etc.
 - `metadata.totalPrice` - The total price of the transaction. It must be a decimal number with no more than two decimal places (ex: 12.02, 5.00)
+- `metadata.href` - The URL of the page that the conversion took place on
+- `metadata.title` - The title of the page that the conversion took place on
 
 ## TypeScript Types
 
@@ -193,6 +197,12 @@ type Metadata = {
 
   /** The total price of the transaction. It must be a decimal number with no more than two decimal places (ex: 12.02, 5.00)  */
   totalPrice?: string;
+
+  /** The URL of the page where the conversion occurred */
+  href?: string;
+
+  /** The title of the page where the conversion occurred */
+  title?: string;
 
   /** Add additional metadata about the event that you want to see on the event. */
   [key: string]: string | boolean | number;
@@ -238,6 +248,8 @@ await laylo.conversions.track({
     currency: "USD",
     totalPrice: 100.0,
     location: "New York",
+    href: "https://tickets.me/lady-gaga-nyc",
+    title: "Lady Gaga at MSG",
   },
   user: {
     phone: "+1234567890",
