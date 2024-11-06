@@ -75,7 +75,7 @@ await laylo.conversions.track({
   user: {
     phone: "+1234567890", // a phone number or email is required
     email: "fan@laylo.com",
-    smsMarketingConsent: true, // if a phone numbe is not already opted into the customer this indicates that you have received permission from them to subscribe to updates from the customer
+    smsMarketingConsent: true, // if the phone number isn't already opted in, this indicates you've received permission from the user to subscribe to customer updates
     // you can add additional properties here
   },
   layloProductId: "PROD_123", // an optional laylo productId that helps the customer better track engagement. you will need to get this value from the customer and it can change depending on the conversion flow.
