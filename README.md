@@ -106,6 +106,71 @@ An email or phone number must be sent with the `user` object. This is how Laylo 
 
 When using the [`user.phone`](http://user.phone) property you must include the country code.
 
+### Line Items
+
+If you are going to add line items to your track call then you will want to take two different approaches depending on if you are a ticketing platform or an eCommerce platform.
+
+**Ticketing**
+
+Be sure to include the `name` argument so that conversion names are prefixed with the event name. For example, the following track call will create two conversions for the fan with the names `MSG_Parking_Pass` and `MSG_GA_Pass`
+
+```jsx
+laylo.conversions.track({
+  customerApiKey: "CUSTOMER_API_KEY",
+  action: "PURCHASE",
+  name: "MSG",
+  metadata: {
+    currency: "USD",
+  },
+  user: {
+    email: "astro@laylo.com",
+    emailMarketingConsent: true,
+  },
+  lineItems: [
+    {
+      name: "Parking Pass",
+      quantity: 1,
+      price: 10,
+    },
+    {
+      name: "GA Pass",
+      quantity: 2,
+      price: 20,
+    },
+  ],
+});
+```
+
+**eCommerce**
+
+You don’t need to include the name argument at the top level of the track call. An eCommerce order is unlikely to need a prefix for each line item.. For example, the following track call will create two conversions for the fan with the names `Tour_Poster` and `Vinyl`.
+
+```jsx
+laylo.conversions.track({
+  customerApiKey: "CUSTOMER_API_KEY",
+  action: "PURCHASE",
+  metadata: {
+    currency: "USD",
+  },
+  user: {
+    email: "astro@laylo.com",
+    emailMarketingConsent: true,
+  },
+  lineItems: [
+    {
+      name: "Tour Poster",
+      quantity: 1,
+      price: 10,
+    },
+    {
+      name: "Vinyl",
+      quantity: 2,
+      price: 20,
+    },
+  ],
+});
+```
+
 ### Marketing Consent
 
 Fans that have reached your platform through a Laylo RSVP are typically already opted in to the customer’s marketing consent. However, if you have a marketing consent checkbox on your platform it is highly recommended to send that information to Laylo. If they have agreed to marketing then add the following code to the track call. Be sure to check you are enabling marketing consent for the appropriate communication channel.
