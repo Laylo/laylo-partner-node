@@ -1,5 +1,14 @@
 export type LayloAction = "PURCHASE" | "CHECK_IN" | "ADD_TO_CART";
 
+export type LineItem = {
+  /** The name of the product purchased. */
+  name: string;
+  /** The quantity of the product purchased. */
+  quantity?: number;
+  /** The price of the product purchased. This is for each individual item, not the total cost for a quantity of more than 1. */
+  price?: number;
+};
+
 export type Metadata = {
   /** The Laylo product ID associated with the event. Optional, but recommended for better tracking. */
   productId?: string;
