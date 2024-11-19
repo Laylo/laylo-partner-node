@@ -2,10 +2,10 @@ import * as http from "http";
 import { conversions, config } from "../index";
 
 config({
-  id: "LAYLO_ACCOUNT_ID",
-  accessKey: "LAYLO_ACCESS_KEY",
-  secretKey: "LAYLO_SECRET_KEY",
-  companyName: "LAYLO_COMPANY_NAME",
+  id: "",
+  accessKey: "",
+  secretKey: "",
+  companyName: "",
 });
 
 const PORT = 3000;
@@ -19,10 +19,22 @@ const server = http.createServer(async (req, res) => {
   if (req.url === "/track") {
     const value = async () => {
       const value = await conversions.track({
-        customerApiKey: "A_CUSTOMERS_API_KEY",
+        customerApiKey: "",
         name: "TOUR",
+        lineItems: [
+          {
+            name: "Foo",
+            price: 100,
+            quantity: 1,
+          },
+          {
+            name: "Foo2",
+            price: 100,
+            quantity: 1,
+          },
+        ],
         action: "PURCHASE",
-        metadata: { title: "EVENT_ID", value: 100 },
+        metadata: { title: "EVENT_ID", value: 100, currency: "USD" },
         user: { phone: "+1111111111", smsMarketingConsent: true },
       });
 
