@@ -1,8 +1,7 @@
-import crypto from "crypto";
+import { configuration } from "../../config";
+import { getIsValidConfiguration, makeRequest } from "../../lib";
 import { LayloAction, LineItem, Metadata, TrackResponse, User } from "../types";
 import { hasTrackError } from "./hasTrackError";
-import { configuration } from "../../config";
-import { makeRequest } from "../../lib";
 
 /** Track an event/conversion in the Laylo platform. Using your editor you can click into the properties and user parameters in order to view their types. */
 export const track = async ({
@@ -74,43 +73,11 @@ const sendEvents = async ({
   customerApiKey: string;
   layloProductId?: string;
 }): Promise<TrackResponse | TrackResponse[]> => {
-  if (
-    !configuration.accessKey ||
-    !configuration.secretKey ||
-    !configuration.id
-  ) {
-    console.error(
-      "You must configure the Laylo SDK with an id, access key, and secret key using the config method."
-    );
+  const isValidConfiguration = getIsValidConfiguration();
 
-    return {
-      status: "failure",
-      message:
-        "You must configure the Laylo SDK with an id, access key, and secret key using the config method.",
-    };
+  if (isValidConfiguration.status === "failure") {
+    throw new Error(isValidConfiguration.message);
   }
-
-  const timestamp = Date.now().toString();
-  const header = {
-    alg: "HS256",
-    typ: "JWT",
-  };
-  const encodedHeader = Buffer.from(JSON.stringify(header)).toString("base64");
-
-  const encodedPayload = Buffer.from(
-    JSON.stringify({
-      timestamp,
-      userId: configuration.id,
-      accessKey: configuration.accessKey,
-    })
-  ).toString("base64");
-
-  const signature = crypto
-    .createHmac("sha256", configuration.secretKey)
-    .update(`${encodedHeader}.${encodedPayload}`)
-    .digest("base64");
-
-  const authorization = `${encodedHeader}.${encodedPayload}.${signature}`;
 
   if (lineItems) {
     const trackResponses: TrackResponse[] = [];
@@ -119,11 +86,9 @@ const sendEvents = async ({
       const conversionName = name ? `${name}_${lineItem.name}` : lineItem.name;
 
       const response = await sendEventToApi({
-        authorization,
         customerApiKey,
         action,
         name: conversionName,
-        timestamp,
         metadata,
         user,
         layloProductId,
@@ -135,11 +100,9 @@ const sendEvents = async ({
     return trackResponses;
   } else {
     return await sendEventToApi({
-      authorization,
       customerApiKey,
       action,
       name: name || "",
-      timestamp,
       metadata,
       user,
       layloProductId,
@@ -148,55 +111,38 @@ const sendEvents = async ({
 };
 
 const sendEventToApi = async ({
-  authorization,
   customerApiKey,
   action,
   name,
-  timestamp,
   metadata,
   user,
   layloProductId,
 }: {
-  authorization: string;
   customerApiKey: string;
   action: LayloAction;
   name: string;
-  timestamp: string;
   metadata: Metadata;
   user: User;
   layloProductId?: string;
 }): Promise<TrackResponse> => {
-  const response = await makeRequest(
-    "https://events.laylo.com/track",
-    {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${authorization}`,
-        creatorId: "sdk",
-        layloFid: "sdk",
+  const response = await makeRequest("https://events.laylo.com/track", {
+    Data: {
+      type: "createConversion",
+      payload: {
+        apiKey: customerApiKey,
+        action,
+        name,
+        source: configuration.companyName,
+        metadata: {
+          ...metadata,
+          ...(layloProductId && { productId: layloProductId }),
+        },
+        user,
+        integratorId: configuration.id,
       },
     },
-    JSON.stringify({
-      Data: {
-        type: "createConversion",
-        payload: {
-          apiKey: customerApiKey,
-          action,
-          name,
-          source: configuration.companyName,
-          timestamp,
-          metadata: {
-            ...metadata,
-            ...(layloProductId && { productId: layloProductId }),
-          },
-          user,
-          integratorId: configuration.id,
-        },
-      },
-      PartitionKey: configuration.id,
-    })
-  );
+    PartitionKey: configuration.id,
+  });
 
   const responseBody = JSON.parse(response.body) as
     | { message: string }
@@ -213,7 +159,6 @@ const sendEventToApi = async ({
         action,
         name,
         source: configuration.companyName,
-        timestamp,
         metadata: {
           ...metadata,
           ...(layloProductId && { productId: layloProductId }),
