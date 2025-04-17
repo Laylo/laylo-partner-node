@@ -1,5 +1,6 @@
 import { configuration } from "config";
-import { getIsValidConfiguration, makeRequest } from "lib";
+import { PARTNER_API_URL } from "config/consts";
+import { makeRequest } from "lib";
 
 export type CreateConversionParams = {
   customerApiKey: string;
@@ -20,25 +21,33 @@ export const createConversion = async ({
   name,
   relatedProductId,
 }: CreateConversionParams) => {
-  const isValidConfiguration = getIsValidConfiguration();
+  try {
+    const response = await makeRequest({
+      url: PARTNER_API_URL,
+      method: "POST",
+      data: {
+        type: "conversions.create",
+        payload: {
+          apiKey: customerApiKey,
+          name,
+          action,
+          relatedProductId,
+          source: configuration.companyName,
+          integratorId: configuration.id,
+        },
+      },
+    });
 
-  if (isValidConfiguration.status === "failure") {
-    throw new Error(isValidConfiguration.message);
+    const conversion = response.body as LayloConversion;
+
+    return conversion;
+  } catch (error) {
+    throw new Error(
+      `Laylo SDK - Failed to create conversion: ${JSON.stringify(
+        error,
+        null,
+        2
+      )}`
+    );
   }
-
-  const response = await makeRequest("https://events.laylo.com/api/partner", {
-    type: "createConversion",
-    payload: {
-      apiKey: customerApiKey,
-      name,
-      action,
-      relatedProductId,
-      source: configuration.companyName,
-      integratorId: configuration.id,
-    },
-  });
-
-  const responseBody = JSON.parse(response.body) as LayloConversion;
-
-  return responseBody;
 };

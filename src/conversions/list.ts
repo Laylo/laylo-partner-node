@@ -1,43 +1,37 @@
 import { configuration } from "config";
-import { getIsValidConfiguration, makeRequest } from "lib";
+import { PARTNER_API_URL } from "config/consts";
+import { makeRequest } from "lib";
+import { LayloConversion } from "./types";
 
-export type CreateConversionParams = {
+type ActionType = "PURCHASE" | "ADD_TO_CART" | "LINK_CLICK";
+
+export type ListConversionParams = {
   customerApiKey: string;
-  action?: ["PURCHASE", "ADD_TO_CART", "LINK_CLICK"];
-  name: string;
+  action?: ActionType[];
   relatedProductId?: string;
-};
-
-export type LayloConversion = {
-  id: string;
-  action: string;
-  name: string;
 };
 
 export const listConversions = async ({
   customerApiKey,
   action,
   relatedProductId,
-}: CreateConversionParams) => {
-  const isValidConfiguration = getIsValidConfiguration();
-
-  if (isValidConfiguration.status === "failure") {
-    throw new Error(isValidConfiguration.message);
-  }
-
-  const response = await makeRequest("https://events.laylo.com/api/partner", {
-    type: "createConversion",
-    payload: {
-      apiKey: customerApiKey,
-      name,
-      action,
-      relatedProductId,
-      source: configuration.companyName,
-      integratorId: configuration.id,
+}: ListConversionParams) => {
+  const response = await makeRequest({
+    url: PARTNER_API_URL,
+    method: "POST",
+    data: {
+      type: "conversions.list",
+      payload: {
+        apiKey: customerApiKey,
+        action,
+        relatedProductId,
+        source: configuration.companyName,
+        integratorId: configuration.id,
+      },
     },
   });
 
-  const responseBody = JSON.parse(response.body) as LayloConversion;
+  const conversions = response.body as LayloConversion[];
 
-  return responseBody;
+  return conversions;
 };

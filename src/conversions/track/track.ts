@@ -125,26 +125,30 @@ const sendEventToApi = async ({
   user: User;
   layloProductId?: string;
 }): Promise<TrackResponse> => {
-  const response = await makeRequest("https://events.laylo.com/track", {
-    Data: {
-      type: "createConversion",
-      payload: {
-        apiKey: customerApiKey,
-        action,
-        name,
-        source: configuration.companyName,
-        metadata: {
-          ...metadata,
-          ...(layloProductId && { productId: layloProductId }),
+  const response = await makeRequest({
+    url: "https://events.laylo.com/track",
+    method: "PUT",
+    data: {
+      Data: {
+        type: "createConversion",
+        payload: {
+          apiKey: customerApiKey,
+          action,
+          name,
+          source: configuration.companyName,
+          metadata: {
+            ...metadata,
+            ...(layloProductId && { productId: layloProductId }),
+          },
+          user,
+          integratorId: configuration.id,
         },
-        user,
-        integratorId: configuration.id,
       },
+      PartitionKey: configuration.id,
     },
-    PartitionKey: configuration.id,
   });
 
-  const responseBody = JSON.parse(response.body) as
+  const responseBody = JSON.parse(response.body as any) as
     | { message: string }
     | { SequenceNumber: string };
 

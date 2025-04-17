@@ -9,7 +9,6 @@ export type SendSMSResponse =
         customerApiKey: string;
         name: string;
         source: string;
-        numberOfPhoneNumbers: number;
         message: string;
         sendAt: string;
       };

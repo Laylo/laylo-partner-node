@@ -1,5 +1,2 @@
-import { segments } from "./segments";
-
-export const fans = {
-  segments,
-};
+export { segments } from "./segments";
+export { subscribe } from "./subscribe";

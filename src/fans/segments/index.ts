@@ -1,7 +1,5 @@
-import { createSegment } from "./createSegment";
-import { listSegments } from "./listSegments";
+import { getSegment } from "./getSegment";
 
 export const segments = {
-  createSegment,
-  listSegments,
+  get: getSegment,
 };

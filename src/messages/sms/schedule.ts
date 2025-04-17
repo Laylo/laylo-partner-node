@@ -1,9 +1,11 @@
-import { getIsValidConfiguration } from "lib";
+import { LayloSegmentConfiguration } from "fans/segments/getSegment";
 import { sendMessageToApi } from "./lib/sendMessageToApi";
+import { configuration } from "config";
 
 type ScheduleParams = {
   customerApiKey: string;
-  phoneNumbers: string[];
+  phoneNumbers?: string[];
+  segmentConfiguration?: LayloSegmentConfiguration;
   message: string;
   name: string;
   sendAt: string;
@@ -15,18 +17,26 @@ export const schedule = async ({
   message,
   name,
   sendAt,
+  segmentConfiguration,
 }: ScheduleParams) => {
-  const isValidConfiguration = getIsValidConfiguration();
+  try {
+    const response = await sendMessageToApi({
+      customerApiKey,
+      phoneNumbers,
+      segmentConfiguration,
+      message,
+      name,
+      sendAt,
+    });
 
-  if (isValidConfiguration.status === "failure") {
-    throw new Error(isValidConfiguration.message);
+    return response;
+  } catch (error) {
+    throw new Error(
+      `Laylo SDK - Failed to schedule message: ${JSON.stringify(
+        error,
+        null,
+        2
+      )}`
+    );
   }
-
-  return await sendMessageToApi({
-    customerApiKey,
-    phoneNumbers,
-    message,
-    name,
-    sendAt,
-  });
 };

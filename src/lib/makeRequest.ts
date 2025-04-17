@@ -1,21 +1,34 @@
 import https from "https";
 import { IncomingMessage } from "http";
 import { getAuthorizationHeader } from "./getAuthorizationHeader";
+import { configuration } from "config";
+import { getIsValidConfiguration } from "lib";
 
-export const makeRequest = async (
-  url: string,
+export const makeRequest = async ({
+  url,
+  method,
+  data,
+}: {
+  url: string;
+  method: "GET" | "POST" | "PUT" | "DELETE";
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  data: Record<string, any>
-): Promise<{
+  data: Record<string, any>;
+}): Promise<{
   status: IncomingMessage["statusCode"];
   headers: IncomingMessage["headers"];
-  body: string;
+  body: Record<string, unknown> | any[];
 }> => {
+  const isValidConfiguration = getIsValidConfiguration();
+
+  if (isValidConfiguration.status === "failure") {
+    throw new Error(isValidConfiguration.message);
+  }
+
   const timestamp = Date.now().toString();
   const authorization = getAuthorizationHeader({ timestamp });
 
   const options: https.RequestOptions = {
-    method: "PUT",
+    method,
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${authorization}`,
@@ -40,6 +53,8 @@ export const makeRequest = async (
         ...data,
         payload: {
           ...data.payload,
+          integratorId: configuration.id,
+          source: configuration.companyName,
           timestamp,
         },
       };
@@ -56,7 +71,7 @@ export const makeRequest = async (
         resolve({
           status: res.statusCode,
           headers: res.headers,
-          body: responseData,
+          body: JSON.parse(responseData ?? "{}"),
         });
       });
     });

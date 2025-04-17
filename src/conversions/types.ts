@@ -57,3 +57,11 @@ export type TrackResponse =
         user: User;
       };
     };
+
+export type LayloConversion = {
+  id: string;
+  action: string;
+  name: string;
+  source: string;
+  createdAt: string;
+};

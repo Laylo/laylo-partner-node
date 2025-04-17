@@ -1,6 +1,8 @@
 import { configuration } from "config";
 
 export const getIsValidConfiguration = () => {
+  console.log({ configuration });
+
   if (
     !configuration.accessKey ||
     !configuration.secretKey ||

@@ -1,42 +1,42 @@
 import { configuration } from "config";
+import { PARTNER_API_URL } from "config/consts";
+import { LayloSegmentConfiguration } from "fans/segments/getSegment";
 import { makeRequest } from "lib";
 import { SendSMSResponse } from "messages/types";
 
 export const sendMessageToApi = async ({
   customerApiKey,
   phoneNumbers,
+  segmentConfiguration,
   message,
   name,
   sendAt,
 }: {
   customerApiKey: string;
   name: string;
-  phoneNumbers: string[];
+  phoneNumbers?: string[];
+  segmentConfiguration?: LayloSegmentConfiguration;
   message: string;
   layloProductId?: string;
   sendAt?: string;
 }): Promise<SendSMSResponse> => {
-  const response = await makeRequest("https://events.laylo.com/messages/sms", {
-    Data: {
-      type: "sendSms",
-      payload: {
-        apiKey: customerApiKey,
-        name,
-        source: configuration.companyName,
-        message,
-        phoneNumbers,
-        sendAt,
-        integratorId: configuration.id,
+  try {
+    await makeRequest({
+      url: PARTNER_API_URL,
+      method: "POST",
+      data: {
+        type: "messages.sms.send",
+        payload: {
+          apiKey: customerApiKey,
+          name,
+          message,
+          phoneNumbers,
+          segmentConfiguration,
+          sendAt,
+        },
       },
-    },
-    PartitionKey: configuration.id,
-  });
+    });
 
-  const responseBody = JSON.parse(response.body) as
-    | { message: string }
-    | { SequenceNumber: string };
-
-  if ((responseBody as { SequenceNumber: string }).SequenceNumber) {
     return {
       status: "success",
       payload: {
@@ -47,16 +47,12 @@ export const sendMessageToApi = async ({
         name,
         source: configuration.companyName,
         message,
-        numberOfPhoneNumbers: phoneNumbers.length,
         sendAt: sendAt || "now",
       },
     };
+  } catch (error) {
+    throw new Error(
+      `Laylo SDK - Failed to send message: ${JSON.stringify(error, null, 2)}`
+    );
   }
-
-  return {
-    status: "failure",
-    ...(responseBody as {
-      message: string;
-    }),
-  };
 };
