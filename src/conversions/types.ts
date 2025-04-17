@@ -53,8 +53,15 @@ export type TrackResponse =
         action: LayloAction;
         name: string;
         source: string;
-        timestamp: string;
         metadata: Metadata;
         user: User;
       };
     };
+
+export type LayloConversion = {
+  id: string;
+  action: string;
+  name: string;
+  source: string;
+  createdAt: string;
+};

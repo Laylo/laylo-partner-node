@@ -1,2 +1,4 @@
 export { track } from "./track";
-export type { LayloAction, Metadata, User } from "./types";
+export type { LayloAction, Metadata, User, LayloConversion } from "./types";
+export { createConversion as create } from "./create";
+export { listConversions as list } from "./list";
