@@ -1,13 +1,13 @@
 {
-  "name": "@laylo.com/partner",
+  "name": "@laylo.com/hackathon",
   "version": "0.0.12",
   "author": "Laylo",
-  "description": "The official Laylo partner Node.js SDK",
+  "description": "The hackathon Laylo Node.js SDK",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Laylo/laylo-partner-node.git"
+    "url": "git+https://github.com/Laylo/laylo-partner-node-hackathon.git"
   },
   "files": [
     "dist"
