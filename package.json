@@ -1,6 +1,6 @@
 {
   "name": "@laylo.com/hackathon",
-  "version": "0.0.12",
+  "version": "0.0.1",
   "author": "Laylo",
   "description": "The hackathon Laylo Node.js SDK",
   "main": "./dist/index.js",
