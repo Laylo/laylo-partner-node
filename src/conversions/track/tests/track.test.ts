@@ -1,22 +1,25 @@
+import { describe, it, expect, vi, beforeEach } from "vitest";
 import { config } from "../../../";
 import { track } from "../track";
+import { hasTrackError } from "../hasTrackError";
 
-jest.mock("../../../lib", () => ({
-  makeRequest: jest.fn(() => ({ body: '{"SequenceNumber":"test"}' })),
+vi.mock("../../../lib", () => ({
+  makeRequest: vi.fn(() => ({ body: '{"SequenceNumber":"test"}' })),
 }));
+
+vi.mock("../hasTrackError");
 
 describe("track", () => {
   beforeEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   // ignore the console.error messages
-  jest.spyOn(console, "error").mockImplementation();
+  vi.spyOn(console, "error").mockImplementation(() => {});
 
   it("should send the event to the Laylo API", async () => {
-    jest.mock("../hasTrackError", () => ({
-      hasTrackError: jest.fn(() => null),
-    }));
+    // Mock hasTrackError to return null (no error)
+    vi.mocked(hasTrackError).mockReturnValue(false);
 
     config({
       id: "AN_ID",
@@ -67,9 +70,10 @@ describe("track", () => {
   });
 
   it("should fail to send the event to the Laylo API", async () => {
-    jest.mock("../hasTrackError", () => ({
-      hasTrackError: jest.fn(() => "Error"),
-    }));
+    // Mock hasTrackError to return an error message
+    vi.mocked(hasTrackError).mockReturnValue(
+      "You must configure the Laylo SDK with an id, access key, and secret key using the config method."
+    );
 
     config({
       id: "",

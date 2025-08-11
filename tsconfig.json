@@ -13,7 +13,8 @@
     "isolatedModules": true,
     "baseUrl": "./src",
     "declaration": true,
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "types": ["vitest/globals"]
   },
   "exclude": ["node_modules", "dist"]
 }

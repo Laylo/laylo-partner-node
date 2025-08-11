@@ -1,10 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { describe, it, expect, vi } from "vitest";
 import { Configuration } from "config";
 import { hasTrackError } from "../hasTrackError";
 
 describe("hasTrackError", () => {
   // ignore the console.error messages
-  jest.spyOn(console, "error").mockImplementation();
+  vi.spyOn(console, "error").mockImplementation(() => {});
 
   const configuration: Configuration = {
     id: "AN_ID",
@@ -131,7 +132,7 @@ describe("hasTrackError", () => {
     });
 
     expect(result).toBe(
-      "You must provide a total price if you are providing a currency."
+      "You must provide a total price or line items if you are providing a currency."
     );
   });
 
@@ -148,7 +149,7 @@ describe("hasTrackError", () => {
     });
 
     expect(result).toBe(
-      "You must provide a currency if you are providing a total price."
+      "You must provide a currency if you are providing a total price or line item prices."
     );
   });
 
@@ -165,7 +166,7 @@ describe("hasTrackError", () => {
     });
 
     expect(result).toBe(
-      "You must provide a total price if you are providing a currency."
+      "You must provide a total price or line items if you are providing a currency."
     );
   });
 });
