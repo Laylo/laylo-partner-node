@@ -63,11 +63,13 @@ import laylo from "@laylo.com/partner";
 await laylo.conversions.track({
   customerApiKey: "CUSTOMER_API_KEY", // *required* THIS IS NOT YOUR API KEY. THIS IS EACH OF OUR MUTUAL CUSTOMER'S LAYLO API KEY.
   action: "PURCHASE", // *required* one of ['PURCHASE', 'CHECK_IN', 'ADD_TO_CART']
-  name: "MSG - 04/05/2025", // *required* an identifier that indicates what the fan has purchased (ideally human-readable)
+  name: "ROSEBOWL_04_05_2025", // *required* an identifier that indicates what the fan has purchased (ideally human-readable)
   metadata: {
     currency: "USD",
-    totalPrice: 100.0,
-    location: "New York",
+    totalPrice: 100.01,
+    city: "Los Angeles",
+    state: "California",
+    country: "USA",
     href: "https://tickets.me/Lakers-Celtics-Game-5",
     title: "Lakers Celtic Game 5 2024 Finals",
     // you can additional properties here
@@ -76,6 +78,7 @@ await laylo.conversions.track({
     phone: "+1234567890", // a phone number or email is required
     email: "fan@laylo.com",
     smsMarketingConsent: true, // if the phone number isn't already opted in, this indicates you've received permission from the user to subscribe to customer updates
+    emailMarketingConsent: true, // if the email address isn't already opted in, this indicates you've received permission from the user to subscribe to customer updates
     // you can add additional properties here
   },
   layloProductId: "PROD_123", // an optional laylo productId that helps the customer better track engagement. you will need to get this value from the customer and it can change depending on the conversion flow.
@@ -118,7 +121,7 @@ Be sure to include the `name` argument so that conversion names are prefixed wit
 laylo.conversions.track({
   customerApiKey: "CUSTOMER_API_KEY",
   action: "PURCHASE",
-  name: "MSG",
+  name: "ROSEBOWL_04_05_2025",
   metadata: {
     currency: "USD",
   },
@@ -180,11 +183,13 @@ Fans that have reached your platform through a Laylo RSVP are typically already 
 `emailMarketingConsent: true`
 
 ```jsx
-llo.track("PURCHASE", "MSG_04_05_2025",
+llo.track("PURCHASE", "ROSEBOWL_04_05_2025",
   {
     currency: "USD",
-	  totalPrice: 100.00,
-	  location: "New York"
+	  totalPrice: 100.01,
+    city: "Los Angeles",
+    state: "California",
+    country: "USA",
   },
   {
 	  emal: "astro@laylo.com",
@@ -198,11 +203,13 @@ llo.track("PURCHASE", "MSG_04_05_2025",
 `smsMarketingConsent: true`
 
 ```jsx
-llo.track("PURCHASE", "MSG_04_05_2025",
+llo.track("PURCHASE", "ROSEBOWL_04_05_2025",
   {
     currency: "USD",
-	  totalPrice: 100.00,
-	  location: "New York"
+	  totalPrice: 100.01,
+    city: "Los Angeles",
+    state: "California",
+    country: "USA",
   },
   {
 	  phone: "+1234567890",
@@ -232,25 +239,25 @@ Some metadata properties are special and handled differently by Laylo. Including
 
 ```tsx
 type TrackParams = {
-	 /** Categorize the action taken by the user. It can be one of the following: 'PURCHASE', 'CHECK_IN', 'ADD_TO_CART' */
-	action: 'PURCHASE' | 'CHECK_IN' | 'ADD_TO_CART'] ;
+  /** Categorize the action taken by the user. It can be one of the following: 'PURCHASE', 'STORE_PURCHASE' (for ecommerce platforms like Shopify), 'CHECK_IN', 'ADD_TO_CART' */
+  action: "PURCHASE" | "STORE_PURCHASE" | "CHECK_IN" | "ADD_TO_CART";
 
   /** Give your event a recognizable name. It can only contain letters, numbers, underscores, hyphens, forward slashes, and spaces. The name does not need to be unique for each user action. For example 'Lakers vs Celtics - 10/05/2024` is a name that will allow customers to filter by that event. */
-	name: string;
+  name: string;
 
   /** Properties of the event. This is a freeform JSON object with a set of special properties. */
-	metadata: [Metadata](https://www.notion.so/Laylo-SDK-Documentation-0ec0ec2c7b8547aabbbfa1c648003818?pvs=21);
+  metadata: Metadata;
 
-	/** Properties of the user. Must include an email or a phone number. If both are
+  /** Properties of the user. Must include an email or a phone number. If both are
 	included then phone number will take precedence. */
-	user: [User](https://www.notion.so/Laylo-SDK-Documentation-0ec0ec2c7b8547aabbbfa1c648003818?pvs=21);
+  user: User;
 
-	/** This is your customer's Laylo API key that they create at https://laylo.com/settings?tab=Integrations. It should be securely stored in your backend and never exposed on the frontend. */
-	customerApiKey: string;
+  /** This is your customer's Laylo API key that they create at https://laylo.com/settings?tab=Integrations. It should be securely stored in your backend and never exposed on the frontend. */
+  customerApiKey: string;
 
   /** The Laylo product ID associated with the event. Optional, but recommended for better tracking. */
   layloProductId?: string;
-}
+};
 ```
 
 ### Metadata
@@ -268,6 +275,15 @@ type Metadata = {
 
   /** The title of the page where the conversion occurred */
   title?: string;
+
+  /** The city that the user is located in */
+  city?: string;
+
+  /** The state that the user is located in */
+  state?: string;
+
+  /** The country that the user is located in */
+  country?: string;
 
   /** Add additional metadata about the event that you want to see on the event. */
   [key: string]: string | boolean | number;
@@ -308,13 +324,15 @@ import laylo from "@laylo.com/partner";
 await laylo.conversions.track({
   customerApiKey: "123",
   action: "PURCHASE",
-  name: "MSG_04_05_2025",
+  name: "ROSEBOWL_04_05_2025",
   metadata: {
     currency: "USD",
-    totalPrice: 100.0,
-    location: "New York",
+    totalPrice: 100.01,
+    city: "Los Angeles",
+    state: "California",
+    country: "USA",
     href: "https://tickets.me/lady-gaga-nyc",
-    title: "Lady Gaga at MSG",
+    title: "Lady Gaga at the Rose Bowl",
   },
   user: {
     phone: "+1234567890",
@@ -334,9 +352,11 @@ import laylo from "@laylo.com/partner";
 await laylo.conversions.track({
   customerApiKey: "123",
   action: "CHECK_IN",
-  name: "MSG_04_05_2025",
+  name: "ROSEBOWL_04_05_2025",
   metadata: {
-    location: "New York",
+    city: "Los Angeles",
+    state: "California",
+    country: "USA",
   },
   user: {
     phone: "+1234567890",
