@@ -108,12 +108,25 @@ export const hasTrackError = ({
   if (
     metadata.currency &&
     !metadata.totalPrice &&
-    lineItems?.every(
+    (!lineItems || lineItems.length === 0)
+  ) {
+    const message =
+      "You must provide a total price or line items if you are providing a currency.";
+
+    console.error(message);
+
+    return message;
+  }
+
+  if (
+    metadata.currency &&
+    lineItems &&
+    lineItems.every(
       (lineItem) => lineItem.price === undefined || lineItem.price === null
     )
   ) {
     const message =
-      "You must provide a total price or line item prices if you are providing a currency.";
+      "Your line items must have a price if you are providing a currency.";
 
     console.error(message);
 
@@ -122,9 +135,10 @@ export const hasTrackError = ({
 
   if (
     (metadata.totalPrice ||
-      lineItems?.some(
-        (lineItem) => lineItem.price !== undefined && lineItem.price !== null
-      )) &&
+      (lineItems &&
+        lineItems?.some(
+          (lineItem) => lineItem.price !== undefined && lineItem.price !== null
+        ))) &&
     !metadata.currency
   ) {
     const message =
