@@ -5,7 +5,7 @@ export type LineItem = {
   name: string;
   /** The quantity of the product purchased. */
   quantity?: number;
-  /** The price of the product purchased. This is for each individual item, not the total cost for a quantity of more than 1. */
+  /** The price of the product purchased. This is for each individual item, not the total cost for a quantity of more than 1. It must be a decimal number with no more than two decimal places (ex: 12.02, 5.00) */
   price?: number;
 };
 
@@ -20,6 +20,12 @@ export type Metadata = {
   href?: string;
   /** The title of the page that the conversion occurred on */
   title?: string;
+  /** The city that the user is located in */
+  city?: string;
+  /** The state that the user is located in */
+  state?: string;
+  /** The country that the user is located in */
+  country?: string;
   /** Add additional metadata about the event that you want to see on the event. */
   [key: string]: string | boolean | number | undefined;
 };
