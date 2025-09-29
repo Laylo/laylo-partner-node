@@ -1,10 +1,10 @@
 {
   "name": "@laylo.com/partner",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "author": "Laylo",
   "description": "The official Laylo partner Node.js SDK",
   "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "types": "./dist/src/index.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Laylo/laylo-partner-node.git"
