@@ -212,6 +212,6 @@ const sendEventToApi = async ({
 
   return {
     status: "failure",
-    ...response.body,
-  } as TrackResponse;
+    message: (response.body as { message: string }).message,
+  };
 };

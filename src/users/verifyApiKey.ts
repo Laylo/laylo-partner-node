@@ -1,9 +1,9 @@
 import { makeRequest } from "lib";
 
-export type VerifiyApiKeyResult = "valid" | "invalid";
+export type VerifyApiKeyResult = "valid" | "invalid";
 
 export type VerifyApiKeyResponse = {
-  isKeyValid: VerifiyApiKeyResult;
+  isKeyValid: VerifyApiKeyResult;
 };
 
 export const verifyApiKey = async ({
@@ -29,6 +29,6 @@ export const verifyApiKey = async ({
 
     return {
       isKeyValid: "invalid",
-    } as VerifyApiKeyResponse;
+    };
   }
 };

@@ -29,6 +29,7 @@ export const makeRequest = async ({
 
   const options: https.RequestOptions = {
     method,
+    timeout: 30000,
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${authorization}`,
@@ -77,6 +78,11 @@ export const makeRequest = async ({
 
     req.on("error", (error) => {
       reject(error);
+    });
+
+    req.on("timeout", () => {
+      req.destroy();
+      reject(new Error("Request timeout"));
     });
 
     if (data) {
