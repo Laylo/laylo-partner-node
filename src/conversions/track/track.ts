@@ -166,18 +166,10 @@ const sendEventToApi = async ({
   user: User;
   layloProductId?: string;
 }): Promise<TrackResponse> => {
-  const response = await makeRequest(
-    "https://events.laylo.com/track",
-    {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${authorization}`,
-        creatorId: "sdk",
-        layloFid: "sdk",
-      },
-    },
-    JSON.stringify({
+  const response = await makeRequest({
+    url: "https://events.laylo.com/track",
+    method: "PUT",
+    data: {
       Data: {
         type: "createConversion",
         payload: {
@@ -185,7 +177,6 @@ const sendEventToApi = async ({
           action,
           name,
           source: configuration.companyName,
-          timestamp,
           metadata: {
             ...metadata,
             ...(layloProductId && { productId: layloProductId }),
@@ -195,14 +186,10 @@ const sendEventToApi = async ({
         },
       },
       PartitionKey: configuration.id,
-    })
-  );
+    },
+  });
 
-  const responseBody = JSON.parse(response.body) as
-    | { message: string }
-    | { SequenceNumber: string };
-
-  if ((responseBody as { SequenceNumber: string }).SequenceNumber) {
+  if ("SequenceNumber" in response.body) {
     return {
       status: "success",
       payload: {
@@ -225,8 +212,6 @@ const sendEventToApi = async ({
 
   return {
     status: "failure",
-    ...(responseBody as {
-      message: string;
-    }),
-  };
+    ...response.body,
+  } as TrackResponse;
 };
