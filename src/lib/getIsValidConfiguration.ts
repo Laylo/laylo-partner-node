@@ -1,4 +1,4 @@
-import { configuration } from "config";
+import { configuration } from "../config";
 
 export const getIsValidConfiguration = () => {
   if (

@@ -2,7 +2,7 @@ import https from "https";
 import { IncomingMessage } from "http";
 import { getAuthorizationHeader } from "./getAuthorizationHeader";
 import { getIsValidConfiguration } from "./getIsValidConfiguration";
-import { configuration } from "config";
+import { configuration } from "../config";
 
 export const makeRequest = async ({
   url,

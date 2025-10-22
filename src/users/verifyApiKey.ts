@@ -1,4 +1,4 @@
-import { makeRequest } from "lib";
+import { makeRequest } from "../lib";
 
 export type VerifyApiKeyResult = "valid" | "invalid";
 

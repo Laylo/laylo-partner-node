@@ -1,5 +1,5 @@
-import { configuration } from "config";
 import crypto from "crypto";
+import { configuration } from "../config";
 
 export const getAuthorizationHeader = ({
   timestamp,
