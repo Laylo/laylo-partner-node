@@ -189,7 +189,9 @@ const sendEventToApi = async ({
     },
   });
 
-  if ("SequenceNumber" in response.body) {
+  const body = JSON.parse(response.body);
+
+  if ("SequenceNumber" in body) {
     return {
       status: "success",
       payload: {
@@ -212,6 +214,6 @@ const sendEventToApi = async ({
 
   return {
     status: "failure",
-    message: (response.body as { message: string }).message,
+    message: body.message,
   };
 };

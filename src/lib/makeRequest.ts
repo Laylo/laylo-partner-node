@@ -16,7 +16,7 @@ export const makeRequest = async ({
 }): Promise<{
   status: IncomingMessage["statusCode"];
   headers: IncomingMessage["headers"];
-  body: Record<string, unknown> | any[];
+  body: string;
 }> => {
   const isValidConfiguration = getIsValidConfiguration();
 
