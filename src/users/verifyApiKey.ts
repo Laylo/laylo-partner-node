@@ -23,9 +23,14 @@ export const verifyApiKey = async ({
       },
     });
 
-    return response.body as VerifyApiKeyResponse;
+    const body = JSON.parse(response.body);
+
+    return body as VerifyApiKeyResponse;
   } catch (error) {
-    console.error("Error verifying API key", error);
+    console.error("src:users:verifyApiKey", {
+      err: error,
+      message: "Error verifying API key",
+    });
 
     return {
       isKeyValid: "invalid",
