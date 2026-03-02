@@ -26,6 +26,8 @@ export type Metadata = {
   state?: string;
   /** The country that the user is located in */
   country?: string;
+  /** A unique identifier for this conversion event, used for deduplication. If the same uniqueId is sent multiple times, only the first conversion will be processed. */
+  uniqueId?: string;
   /** Add additional metadata about the event that you want to see on the event. */
   [key: string]: string | boolean | number | undefined;
 };

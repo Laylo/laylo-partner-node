@@ -72,7 +72,8 @@ await laylo.conversions.track({
     country: "USA",
     href: "https://tickets.me/Lakers-Celtics-Game-5",
     title: "Lakers Celtic Game 5 2024 Finals",
-    // you can additional properties here
+    uniqueId: "order-12345", // optional unique identifier for deduplication
+    // you can add additional properties here
   },
   user: {
     phone: "+1234567890", // a phone number or email is required
@@ -232,6 +233,7 @@ Some metadata properties are special and handled differently by Laylo. Including
 - `metadata.totalPrice` - The total price of the transaction. It must be a decimal number with no more than two decimal places (ex: 12.02, 5.00)
 - `metadata.href` - The URL of the page that the conversion took place on
 - `metadata.title` - The title of the page that the conversion took place on
+- `metadata.uniqueId` - A unique identifier for the conversion event, used for deduplication. If the same `uniqueId` is sent multiple times, only the first conversion will be processed. This is useful for ensuring idempotency when retrying failed requests or when the same event may be sent from multiple sources.
 
 ## TypeScript Types
 
@@ -284,6 +286,9 @@ type Metadata = {
 
   /** The country that the user is located in */
   country?: string;
+
+  /** A unique identifier for the conversion event, used for deduplication. If the same uniqueId is sent multiple times, only the first conversion will be processed. */
+  uniqueId?: string;
 
   /** Add additional metadata about the event that you want to see on the event. */
   [key: string]: string | boolean | number;
