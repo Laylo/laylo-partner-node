@@ -11,3 +11,5 @@ export const laylo = {
   conversions,
   users,
 };
+
+export default laylo;
