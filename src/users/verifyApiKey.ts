@@ -23,9 +23,20 @@ export const verifyApiKey = async ({
       },
     });
 
-    return response.body as VerifyApiKeyResponse;
+    const body = JSON.parse(response.body);
+
+    // The API returns `apiKeyStatus` at the top level for a valid key (200) and
+    // nested under `error` for an invalid key (401), so check both locations.
+    const apiKeyStatus = body?.apiKeyStatus ?? body?.error?.apiKeyStatus;
+
+    return {
+      isKeyValid: apiKeyStatus === "valid" ? "valid" : "invalid",
+    };
   } catch (error) {
-    console.error("Error verifying API key", error);
+    console.error("src:users:verifyApiKey", {
+      err: error,
+      message: "Error verifying API key",
+    });
 
     return {
       isKeyValid: "invalid",
