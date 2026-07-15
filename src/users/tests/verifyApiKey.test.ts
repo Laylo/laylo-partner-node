@@ -15,9 +15,12 @@ describe("verifyApiKey", () => {
   vi.spyOn(console, "error").mockImplementation(() => {});
 
   it("should return valid when API key is valid", async () => {
-    // Mock makeRequest to return a valid response
+    // Mock makeRequest to return the real valid-key response shape (200)
     vi.mocked(lib.makeRequest).mockResolvedValue({
-      body: JSON.stringify({ isKeyValid: "valid" }),
+      body: JSON.stringify({
+        apiKeyStatus: "valid",
+        message: "API key verified successfully",
+      }),
       status: 200,
       headers: {},
     });
@@ -43,10 +46,13 @@ describe("verifyApiKey", () => {
   });
 
   it("should return invalid when API key is invalid", async () => {
-    // Mock makeRequest to return an invalid response
+    // Mock makeRequest to return the real invalid-key response shape (401,
+    // with apiKeyStatus nested under `error`)
     vi.mocked(lib.makeRequest).mockResolvedValue({
-      body: JSON.stringify({ isKeyValid: "invalid" }),
-      status: 200,
+      body: JSON.stringify({
+        error: { apiKeyStatus: "invalid", message: "Invalid Customer API Key" },
+      }),
+      status: 401,
       headers: {},
     });
 

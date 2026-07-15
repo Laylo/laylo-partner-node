@@ -71,7 +71,7 @@ export const makeRequest = async ({
         resolve({
           status: res.statusCode,
           headers: res.headers,
-          body: JSON.parse(responseData ?? "{}"),
+          body: responseData ?? "{}",
         });
       });
     });
