@@ -169,4 +169,62 @@ describe("hasTrackError", () => {
       "You must provide a total price or line items if you are providing a currency."
     );
   });
+
+  it("should not error when a top-level name is provided but line items have no names", () => {
+    const result = hasTrackError({
+      configuration,
+      action,
+      name,
+      user,
+      metadata,
+      customerApiKey,
+      lineItems: [{ name: "" }, { name: "" }],
+    });
+
+    expect(result).toBe(false);
+  });
+
+  it("should not error when a top-level name is provided but the line items array is empty", () => {
+    const result = hasTrackError({
+      configuration,
+      action,
+      name,
+      user,
+      metadata,
+      customerApiKey,
+      lineItems: [],
+    });
+
+    expect(result).toBe(false);
+  });
+
+  it("should error when there is no top-level name and no line items provide a name", () => {
+    const result = hasTrackError({
+      configuration,
+      action,
+      name: undefined,
+      user,
+      metadata,
+      customerApiKey,
+      lineItems: [{ name: "" }, { name: "" }],
+    });
+
+    expect(result).toBe(
+      "You must provide a name for the event. This should be human readable such as 'MSG_SHOW_04_05_2025'. If you are including line items then you can leave the name key blank but you must provide a name for each line item instead"
+    );
+  });
+
+  it("should not error when there is no top-level name but at least one line item is named", () => {
+    const result = hasTrackError({
+      configuration,
+      action,
+      name: undefined,
+      user,
+      metadata,
+      customerApiKey,
+      lineItems: [{ name: "" }, { name: "Floor Ticket" }],
+    });
+
+    expect(result).toBe(false);
+  });
 });

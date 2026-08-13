@@ -58,13 +58,20 @@ export const hasTrackError = ({
     return message;
   }
 
-  const isNormalConversionWithNoName =
-    (!name || name === "") && (!lineItems || lineItems.length === 0);
+  const hasEventName = !!name && name !== "";
 
-  // we use every because its better to create some conversions then none
-  const isLineItemConversionWithNoName = lineItems?.every(
-    (lineItem) => !lineItem.name
-  );
+  const isNormalConversionWithNoName =
+    !hasEventName && (!lineItems || lineItems.length === 0);
+
+  // A top-level event name is always sufficient on its own, so we only fall
+  // back to the line item names when no event name was provided. We use every
+  // (rather than some) because it is better to create some conversions than
+  // none: as long as one line item is named, the named ones can still be sent.
+  const isLineItemConversionWithNoName =
+    !hasEventName &&
+    !!lineItems &&
+    lineItems.length > 0 &&
+    lineItems.every((lineItem) => !lineItem.name);
 
   if (isNormalConversionWithNoName || isLineItemConversionWithNoName) {
     const message =
