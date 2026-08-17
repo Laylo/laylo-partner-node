@@ -112,11 +112,11 @@ const sendEvents = async ({
 
   const authorization = `${encodedHeader}.${encodedPayload}.${signature}`;
 
-  if (lineItems) {
+  if (lineItems && lineItems.length > 0) {
     const trackResponses: TrackResponse[] = [];
 
     for (const lineItem of lineItems) {
-      const conversionName = name ? `${name}_${lineItem.name}` : lineItem.name;
+      const conversionName = [name, lineItem.name].filter(Boolean).join("_");
 
       const response = await sendEventToApi({
         authorization,
