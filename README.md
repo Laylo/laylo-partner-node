@@ -1,5 +1,14 @@
 # Laylo Partner SDK Documentation
 
+> [!WARNING]
+> **This package is archived and no longer maintained.**
+>
+> `@laylo.com/partner` has been replaced by [`@laylo.com/node`](https://www.npmjs.com/package/@laylo.com/node), the official Node.js SDK for the [Laylo public API](https://developers.laylo.com). New development happens at **[github.com/Laylo/node](https://github.com/Laylo/node)**.
+>
+> This repository is read-only. It won't receive bug fixes, security patches, or new features, and issues and pull requests are no longer accepted. To migrate, install `@laylo.com/node` and replace `laylo.conversions.track(...)` with [`conversions.events.track(...)`](https://developers.laylo.com/api-reference/conversions/conversions.track).
+>
+> The documentation below is kept for reference only.
+
 <aside>
 💧 In order to get your API keys please reach out to contact@laylo.com
 </aside>
