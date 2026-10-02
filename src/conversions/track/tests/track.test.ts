@@ -2,6 +2,7 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 import { config } from "../../../";
 import { track } from "../track";
 import { hasTrackError } from "../hasTrackError";
+import { TrackResponse } from "../../types";
 
 vi.mock("../../../lib", () => ({
   makeRequest: vi.fn(() => ({ body: '{"SequenceNumber":"test"}' })),
@@ -101,5 +102,60 @@ describe("track", () => {
     });
 
     expect(result).toMatchObject({ status: "failure" });
+  });
+
+  it("should send the named event when the line items array is empty", async () => {
+    vi.mocked(hasTrackError).mockReturnValue(false);
+
+    config({
+      id: "AN_ID",
+      accessKey: "AN_ACCESS_KEY",
+      secretKey: "A_SECRET_KEY",
+      companyName: "A_COMPANY_NAME",
+    });
+
+    const result = await track({
+      action: "PURCHASE",
+      name: "MSG Square - 05/21/22",
+      user: { id: "123", phone: "+1111111111", smsMarketingConsent: true },
+      metadata: { title: "EVENT_ID" },
+      customerApiKey: "A_CUSTOMER_API_KEY",
+      lineItems: [],
+    });
+
+    expect(result).toMatchObject({
+      status: "success",
+      payload: { name: "MSG Square - 05/21/22" },
+    });
+  });
+
+  it("should name conversions after the event when a line item has no name", async () => {
+    vi.mocked(hasTrackError).mockReturnValue(false);
+
+    config({
+      id: "AN_ID",
+      accessKey: "AN_ACCESS_KEY",
+      secretKey: "A_SECRET_KEY",
+      companyName: "A_COMPANY_NAME",
+    });
+
+    const result = (await track({
+      action: "PURCHASE",
+      name: "MSG Square - 05/21/22",
+      user: { id: "123", phone: "+1111111111", smsMarketingConsent: true },
+      metadata: { title: "EVENT_ID" },
+      customerApiKey: "A_CUSTOMER_API_KEY",
+      lineItems: [{ name: "" }, { name: "GA" }],
+    })) as TrackResponse[];
+
+    expect(result).toHaveLength(2);
+    expect(result[0]).toMatchObject({
+      status: "success",
+      payload: { name: "MSG Square - 05/21/22" },
+    });
+    expect(result[1]).toMatchObject({
+      status: "success",
+      payload: { name: "MSG Square - 05/21/22_GA" },
+    });
   });
 });
